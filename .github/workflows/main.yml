@@ -29,64 +29,22 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: unit-tests-results
-          path: /home/vagrant/_work/java-demo-app/java-demo-app/target/site
+          path: /home/vagrant/runner-rest/actions-runner/_work/rest-service/rest-service/target/site
       - name: "Publishing html reports"
-        run: "export DATE=$(date +%s); cp -R /home/vagrant/_work/java-demo-app/java-demo-app/target/site \"/var/www//html/${DATE}\"; echo \"http://localhost:8080/${DATE}\"; echo \"::notice:: this is a notice: http://localhost:8080/${DATE}\" "
+        run: "export DATE=$(date +%s); cp -R /home/vagrant/runner-rest/actions-runner/_work/rest-service/rest-service/target/site \"/var/www//html/${DATE}\"; echo \"http://localhost:8080/${DATE}\"; echo \"::notice:: this is a notice: http://localhost:8080/${DATE}\" "
       - name: "LS Surefire folder"
-        run: "ls /home/vagrant/_work/java-demo-app/java-demo-app/target/surefire-reports/"
+        run: "ls /home/vagrant/runner-rest/actions-runner/_work/rest-service/rest-service/target/surefire-reports/"
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: "/home/vagrant/_work/java-demo-app/java-demo-app/target/surefire-reports/*.xml"
+          files: "/home/vagrant/runner-rest/actions-runner/_work/rest-service/rest-service/target/surefire-reports/*.xml"
           
       - name: "Sonar Scan"
         uses: xlui/action-maven-cli@jdk11
         with:
           lifecycle: ' -X sonar:sonar -Dsonar.host.url=http://sonarqube.sd.astrazeneca.com -Dmaven.test.failure.ignore=true -Dsonar.login=db8faa899a39f6435519bf6afad31f6e99b465a2'
       
-      
-      #- name: Deploy 🚀
-      #  uses: JamesIves/github-pages-deploy-action@4.1.5
-      #  with:
-      #    branch: master 
-      #    folder: "/home/runner/work/java-demo-app/java-demo-app/target/site" 
-      
-      
-      # - name: Setup sonarqube
-      #  uses: warchant/setup-sonar-scanner@v3
-      # - name: "Overwrite sonar config file"
-      #  run: "cp /home/vagrant/sonar-scanner.properties /home/vagrant/_work/_tool/sonar-scanner/4.2.0.1873/x64/sonar-scanner-4.2.0.1873-linux/conf/"
-     
-     
-     
-     #- name: Run sonarqube
-      #  env:
-        # to get access to secrets.SONAR_TOKEN, provide GITHUB_TOKEN
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  run: sonar-scanner
-      #        -Dsonar.login=db8faa899a39f6435519bf6afad31f6e99b465a2 
-      #        -Dsonar.host.url=http://sonarqube.sd.astrazeneca.com 
-      #        -Dsonar.projectKey=sonar-scanner-action 
-      #        -Dsonar.projectKey=spring-boot-api-template 
-      #        -Dsonar.projectName=spring-boot-api-template 
-      #        -Dsonar.projectVersion=1.0 
-      #        -Dsonar.sources=src/main 
-      #        -Dsonar.exclude="src/test/**, src/main/java/az/api/model/**" 
-      #        -Dsonar.sourceEncoding=UTF-8 
-      #        -Dsonar.login=admin 
-      #        -Dsonar.password=admin 
-      #        -Dsonar.java.binaries=target/classes
-      
-      
-      
-      #- name: SonarQube Scan
-      #  uses: sonarsource/sonarqube-scan-action@master
-      #  env:
-      #    SONAR_TOKEN: "3921b2d4ddb6a066e9a78ddedee5718110c5128a"
-      #    SONAR_HOST_URL: "http://sonarqube.sd.astrazeneca.com"
-      #    LC_ALL: "en_US.UTF-8"
-
-
+    
 
 
